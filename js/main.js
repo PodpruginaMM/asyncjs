@@ -1,4 +1,29 @@
+'use strict'
 const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
+
+
+//переделала в Promise
+let getRequest2 = (url) => {
+  return new Promise(function(resolve,reject) => {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4) {
+          if (xhr.status !== 200) {
+               reject('Error');
+            } else {
+               resolve(xhr.responseText);
+            }
+      }
+    }
+  }
+}
+
+getRequest2.then(data) => {
+  xhr.send(data);
+}).catch(error) => {
+  console.log(error);
+}
 
 // Переделать в ДЗ
 // let getRequest = (url, cb) => {
@@ -28,14 +53,20 @@ class ProductList {
             this.render();
         });
   }
+  //2. Добавьте в соответствующие классы методы добавления товара в корзину, удаления товара из корзины и получения списка товаров корзины.
+  _fetchProducts() {
+     getRequest(`${API}/catalogData.json`, (data) => {
+     this.goods = JSON.parse(data);
+     this.render();
+     console.log(this.goods);
+    });
+   }
 
-  // _fetchProducts() {
-  //   getRequest(`${API}/catalogData.json`, (data) => {
-  //     this.goods = JSON.parse(data);
-  //     this.render();
-  //     console.log(this.goods);
-  //   });
-  // }
+   _deleteProducts(){
+   }
+
+   _getProductsList(){
+  }
 
   _getProducts() {
     return fetch(`${API}/catalogData.json`)
